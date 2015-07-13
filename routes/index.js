@@ -10,7 +10,17 @@ router.get('/', function(req, res) {
     });
 });
 
+router.get('/author', function(req, res) {
+    res.render('author', {
+        author: {
+            name: 'Sergio Morcuende',
+            photo: 'https://secure.gravatar.com/avatar/e6d3615526e445be25d03161c730e481?size=496&default=retro'
+        }
+    })
+});
+
 router.get('/quizes/question', quizController.question);
 router.get('/quizes/answer', quizController.answer);
+
 
 module.exports = router;

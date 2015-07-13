@@ -4,6 +4,9 @@ body {
 #page-wrap:after {
     content: "Smartphone Layout";
 }
+.avatar {
+    max-width: 60%;
+}
 h2 span,
 section h3 {
     display: none;

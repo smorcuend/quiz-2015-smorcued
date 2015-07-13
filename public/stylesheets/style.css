@@ -15,6 +15,9 @@ body {
     margin-bottom: 1px;
     color: black;
 }
+.wrapper {
+    height: 100%;
+}
 section > div {
     padding: 20px;
 }
