@@ -3,5 +3,9 @@ dist
 .tmp
 .sass-cache
 bower_components
+*.sqlite
+.env
 
 npm-debug.log
+*.sublime-project
+*.sublime-workspace
