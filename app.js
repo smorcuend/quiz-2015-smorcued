@@ -62,5 +62,11 @@ app.use(function(err, req, res) {
     });
 });
 
+// EJS helpers
+app.locals.capitalize = function(str) {
+    str = String(str);
+    return str[0].toUpperCase() + str.substr(1, str.length);
+};
+
 
 module.exports = app;

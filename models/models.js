@@ -41,10 +41,12 @@ sequelize.sync().then(function() {
             Quiz.bulkCreate(
                 [{
                     pregunta: 'Capital de Italia',
-                    respuesta: 'Roma'
+                    respuesta: 'Roma',
+                    category: 'humanidades'
                 }, {
                     pregunta: 'Capital de Portugal',
-                    respuesta: 'Lisboa'
+                    respuesta: 'Lisboa',
+                    category: 'humanidades'
                 }]
             ).then(function() {
                 console.log('Base de datos inicializada')

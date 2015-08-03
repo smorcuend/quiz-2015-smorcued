@@ -2,6 +2,14 @@
 
 var models = require('../models/models.js');
 
+var categories = [
+    'otro',
+    'humanidades',
+    'ocio',
+    'ciencia',
+    'tecnologia',
+];
+
 // Autoload - factoriza el código si ruta incluye :quizId
 exports.load = function(req, res, next, quizId) {
     models.Quiz.findById(quizId).then(
@@ -62,7 +70,8 @@ exports.new = function(req, res) {
 
     res.render('quizes/new', {
         quiz: quiz,
-        errors: []
+        errors: [],
+        categories: categories
     });
 };
 
@@ -82,7 +91,7 @@ exports.create = function(req, res) {
             } else {
                 quiz // save: guarda en DB campos pregunta y respuesta de quiz
                     .save({
-                        fields: ['pregunta', 'respuesta']
+                        fields: ['pregunta', 'respuesta', 'category']
                     })
                     .then(function() {
                         res.redirect('/quizes'); // res.redirect: Redirección HTTP a lista de preguntas
@@ -99,7 +108,8 @@ exports.edit = function(req, res) {
 
     res.render('quizes/edit', {
         quiz: quiz,
-        errors: []
+        errors: [],
+        categories: categories
     });
 };
 
@@ -107,6 +117,7 @@ exports.edit = function(req, res) {
 exports.update = function(req, res) {
     req.quiz.pregunta = req.body.quiz.pregunta;
     req.quiz.respuesta = req.body.quiz.respuesta;
+    req.quiz.category = req.body.quiz.category;
 
     req.quiz
         .validate()
