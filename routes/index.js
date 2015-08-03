@@ -1,3 +1,4 @@
+'use strict';
 var express = require('express');
 var router = express.Router();
 
@@ -6,7 +7,8 @@ var quizController = require('../controllers/quiz_controller');
 /* GET home page. */
 router.get('/', function(req, res) {
     res.render('index', {
-        title: 'Quiz'
+        title: 'Quiz',
+        errors: []
     });
 });
 
@@ -15,8 +17,9 @@ router.get('/author', function(req, res) {
         author: {
             name: 'Sergio Morcuende',
             photo: 'https://secure.gravatar.com/avatar/e6d3615526e445be25d03161c730e481?size=496&default=retro'
-        }
-    })
+        },
+        errors: []
+    });
 });
 
 // Autoload de comandos con :quizId
