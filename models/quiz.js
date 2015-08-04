@@ -22,6 +22,7 @@ module.exports = function(sequelize, DataTypes) {
             },
             category: {
                 type: DataTypes.STRING,
+                defaultValue: 'Otro',
                 validate: {
                     notEmpty: {
                         msg: '-> Falta Categoria'
