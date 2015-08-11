@@ -1,3 +1,5 @@
+'use strict';
+
 var models = require('../models/models.js');
 
 // GET /quizes/:quizId/comments/new
@@ -28,12 +30,12 @@ exports.create = function(req, res) {
                     comment // save: guarda en DB campo texto de comment
                         .save()
                         .then(function() {
-                            res.redirect('/quizes/' + req.params.quizId)
-                        })
+                            res.redirect('/quizes/' + req.params.quizId);
+                        });
                 } // res.redirect: Redirección HTTP a lista de preguntas
             }
         ).catch(function(error) {
-            next(error)
+            next(error);
         });
 
 };
