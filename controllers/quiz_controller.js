@@ -12,16 +12,21 @@ var categories = [
 
 // Autoload - factoriza el código si ruta incluye :quizId
 exports.load = function(req, res, next, quizId) {
-    models.Quiz.findById(quizId).then(
-        function(quiz) {
-            if (quiz) {
-                req.quiz = quiz;
-                next();
-            } else {
-                next(new Error('No existe quizId=' + quizId));
-            }
+    models.Quiz.find({
+        where: {
+            id: Number(quizId)
+        },
+        include: [{
+            model: models.Comment
+        }]
+    }).then(function(quiz) {
+        if (quiz) {
+            req.quiz = quiz;
+            next();
+        } else {
+            next(new Error('No existe quizId=' + quizId));
         }
-    ).catch(function(error) {
+    }).catch(function(error) {
         next(error);
     });
 };
@@ -66,7 +71,7 @@ exports.show = function(req, res) {
 // GET /quizes/:id/answer
 exports.answer = function(req, res) {
     var resultado = 'Incorrecto';
-    if (req.query.respuesta === req.quiz.respuesta) {
+    if (req.query.respuesta.toLowerCase() === req.quiz.respuesta.toLowerCase()) {
         resultado = 'Correcto';
     }
     res.render('quizes/answer', {
