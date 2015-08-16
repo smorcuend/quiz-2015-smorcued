@@ -34,7 +34,7 @@ exports.load = function(req, res, next, quizId) {
 // GET /quizes
 exports.index = function(req, res) {
     if (req.query.search) {
-        console.log('Search:', req.query.search);
+        console.trace('Search:', req.query.search);
         var filtro = (req.query.search || '').replace(" ", "%");
         models.Quiz.findAll({
             where: ["pregunta like ?", '%' + filtro + '%'],
@@ -45,7 +45,7 @@ exports.index = function(req, res) {
                 errors: []
             });
         }).catch(function(error) {
-            console.log(error);
+            console.trace(error);
             next(error);
         });
     } else {

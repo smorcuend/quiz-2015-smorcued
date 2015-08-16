@@ -57,7 +57,7 @@ sequelize.sync().then(function() {
                     category: 'humanidades'
                 }]
             ).then(function() {
-                console.log('Base de datos inicializada')
+                console.trace('Base de datos inicializada')
             });
         };
     });
