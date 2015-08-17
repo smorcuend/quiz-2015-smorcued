@@ -13,6 +13,8 @@ var routes = require('./routes/index');
 
 var app = express();
 
+var TIMELOGOUT = 2 * 60 * 1000; //ms
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -23,9 +25,12 @@ app.use(partials());
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 app.use(cookieParser('Quiz 2015 smorcuend'));
+
 app.use(session());
 
 app.use(methodOverride('_method'));
@@ -41,8 +46,58 @@ app.use(function(req, res, next) {
 
     // Hacer visible req.session en las vistas
     res.locals.session = req.session;
+
     next();
 });
+
+//n middleware de auto-logout
+app.use(function(req, res, next) {
+    var currentDate = (new Date()).getTime();
+    if (req.session.user) { // si estamos en una sesion
+        if (!req.session.timestamp) { //primera vez se pone la marca de tiempo
+            req.session.timestamp = currentDate;
+        } else {
+            if (currentDate - req.session.timestamp > TIMELOGOUT) {
+                delete req.session.user; //eliminamos el usuario
+                delete req.session.timestamp; //eliminamos la marca de tiempo
+
+                res.status(401);
+                res.render('error', {
+                    message: "La sesión ha caducado",
+                    error: {},
+                    errors: []
+                });
+
+            } else { //hay actividad se pone nueva marca de tiempo
+                req.session.timestamp = currentDate;
+
+            }
+        }
+    }
+    next();
+});
+
+//Autologout (módulo 9)
+// if (req.session.user) {
+//     // Petición autenticada
+//     var now = new Date().getTime(),
+//         lastInteraction = req.session.lastInteraction;
+
+//     if (lastInteraction && (now - lastInteraction) > TIME_LOGOUT) {
+//         // Sesión caducada
+//         delete req.session.user;
+//         res.status(401);
+//         res.render('error', {
+//             message: "La sesión ha caducado",
+//             error: {},
+//             errors: []
+//         });
+//     } else {
+//         req.session.lastInteraction = new Date().getTime();
+//         res.locals.session = req.session;
+//     }
+
+// }
 
 
 app.use('/', routes);
